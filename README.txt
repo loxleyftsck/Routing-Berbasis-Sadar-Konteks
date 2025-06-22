@@ -10,7 +10,7 @@ Repositori ini berisi implementasi protokol **routing berbasis Reinforcement Lea
   - Node Ability (battery, buffer)
   - Social Utility (tie-strength, popularity)
   - Message Context (TTL, hop-count)
-- **FCRIPS: Menentukan kualitas node secara linguistik (Good, Bad, Perfect).
+- **CRIPS: Menentukan kualitas node secara linguistik (Good, Bad, Perfect).
 - **Q-Learning**: Belajar nilai optimal untuk next-hop.
 
 
