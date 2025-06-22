@@ -1,0 +1,31 @@
+Scenario.name = ContextSprayAndWaitRouter
+
+Group.router = contextAware.ContextSprayAndWaitRouter
+Group.nrofCopies = 3
+Group.binaryMode = true
+
+Group.fcl = src/fuzzycontrollanguage/FuzzyContextAware.fcl
+#Group.fcl = C:/Users/LENOVO/Documents/the-one-ql-main/the-one-ql-main/src/fuzzycontrollanguage/contextAware.fcl
+
+
+Group.initialEnergy = 100
+Group.bufferSize = 1M
+Group.scanEnergy = 0.1
+Group.transmitEnergy   = 5
+Group.scanResponseEnergy = 0.1
+Group.scanInterval = 10
+Group.warmupTime = 10
+
+Group.alphaPopularity=0.6
+
+Report.nrofReports = 2
+# length of the warm up period (simulated seconds)
+#Report.warmup = 0
+#Report.granularity = 1
+# default directory of reports (can be overridden per Report with output setting)
+Report.reportDir = reports/
+# Report classes to load
+Report.report1 = MessageStatsReport
+Report.report2 = ContactTimesReport
+
+

@@ -1,0 +1,55 @@
+FUNCTION_BLOCK FuzzyMessageContext
+
+VAR_INPUT
+    msgTTL      : REAL;
+    msgHopCount : REAL;
+END_VAR
+
+VAR_OUTPUT
+    MESSAGE_PRIORITY : REAL;
+END_VAR
+
+FUZZIFY msgTTL
+      TERM small  := TRAPE 0    30    70    120  ;
+      TERM medium := TRAPE 100  150   230   280  ;
+      TERM large  := TRAPE 260  300   340   360  ;
+END_FUZZIFY
+
+FUZZIFY msgHopCount
+      TERM small   := TRAPE 0 0 1 2 ;       // Baru dikirim atau 1-hop
+      TERM medium  := TRAPE 1.5 2.5 3.5 4 ; // Hop sedang
+      TERM large   := TRAPE 3.5 4.5 6 6 ;   // Sudah jauh tersebar
+END_FUZZIFY
+
+DEFUZZIFY MESSAGE_PRIORITY
+    TERM low    := TRAPE 0.0 0.0 0.2 0.3 ;
+    TERM normal := TRAPE 0.2 0.3 0.6 0.7 ;
+    TERM high   := TRAPE 0.6 0.7 1.0 1.0 ;
+    TERM urgent := TRAPE 0.8 0.9 1.0 1.0 ;
+    METHOD : COG;
+    DEFAULT := 0;
+    RANGE := (0.0 .. 1.0);
+END_DEFUZZIFY
+
+RULEBLOCK MESSAGE
+    AND     : MIN;
+    ACT     : MIN;
+    ACCU    : MAX;
+
+    // TTL kecil → penting
+    // Hop besar → sudah lama beredar, belum sampai
+
+    RULE 1 : IF msgTTL IS small AND msgHopCount IS large THEN MESSAGE_PRIORITY IS urgent;
+    RULE 2 : IF msgTTL IS small AND msgHopCount IS medium THEN MESSAGE_PRIORITY IS high;
+    RULE 3 : IF msgTTL IS small AND msgHopCount IS small THEN MESSAGE_PRIORITY IS normal;
+
+    RULE 4 : IF msgTTL IS medium AND msgHopCount IS large THEN MESSAGE_PRIORITY IS high;
+    RULE 5 : IF msgTTL IS medium AND msgHopCount IS medium THEN MESSAGE_PRIORITY IS normal;
+    RULE 6 : IF msgTTL IS medium AND msgHopCount IS small THEN MESSAGE_PRIORITY IS low;
+
+    RULE 7 : IF msgTTL IS large AND msgHopCount IS large THEN MESSAGE_PRIORITY IS normal;
+    RULE 8 : IF msgTTL IS large AND msgHopCount IS medium THEN MESSAGE_PRIORITY IS low;
+    RULE 9 : IF msgTTL IS large AND msgHopCount IS small THEN MESSAGE_PRIORITY IS low;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

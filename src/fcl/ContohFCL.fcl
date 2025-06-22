@@ -1,0 +1,26 @@
+FUNCTION_BLOCK contextAware
+VAR_INPUT
+    inputVariable : REAL;
+END_VAR_INPUT
+
+VAR_OUTPUT
+    outputVariable : REAL;
+END_VAR_OUTPUT
+
+FUZZIFY inputVariable
+    TERM low := (0, 1) (5, 0);
+    TERM medium := (5, 0) (10, 1) (15, 0);
+    TERM high := (10, 0) (15, 1);
+END_FUZZIFY
+
+DEFUZZIFY outputVariable
+    METHOD : COG;
+    TERM low := (0, 1) (5, 0);
+    TERM high := (10, 0) (15, 1);
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    RULE 1 : IF inputVariable IS low THEN outputVariable IS low;
+    RULE 2 : IF inputVariable IS medium THEN outputVariable IS medium;
+    RULE 3 : IF inputVariable IS high THEN outputVariable IS high;
+END_RULEBLOCK

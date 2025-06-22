@@ -1,0 +1,17 @@
+Scenario.name = SprayAndWait
+Group.router = SprayAndWaitRouter
+SprayAndWaitRouter.nrofCopies = 3
+SprayAndWaitRouter.binaryMode = true
+
+# how many reports to load
+Report.nrofReports = 2
+# length of the warm up period (simulated seconds)
+Report.warmup = 0
+# default directory of reports (can be overridden per Report with output setting)
+Report.reportDir = reports/
+# Report classes to load
+Report.report1 = MessageStatsReport
+Report.report2 = ContactTimesReport
+#Report.report3 = BufferEnergyNeighborInfoReport
+#Report.report3 = BufferNeighborInfoReport
+#Report.report3 = BufferCalculatorReport

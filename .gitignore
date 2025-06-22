@@ -1,0 +1,4 @@
+/target
+/reports
+# Project exclude paths
+/out/

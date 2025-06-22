@@ -1,0 +1,57 @@
+#Scenario.name = EnergyAwareRouter
+#Group.router = SprayAndWaitRouterBufferEnergy
+#Group.router = EnergyAwareRouter
+#SprayAndWaitRouter.nrofCopies = 3
+#SprayAndWaitRouter.binaryMode = true
+
+# Energy settings
+#EnergyAwareRouter.intialEnergy = 1000
+#EnergyAwareRouter.scanEnergy = 0.5
+#EnergyAwareRouter.transmitEnergy = 2.0
+#EnergyAwareRouter.scanInterval = 10  
+#EnergyAwareRouter.energyWarmup = 10
+
+Scenario.name = EnergyAwareRouting
+Group.router = EnergyAwareRouter
+
+# Energy settings
+#EnergyAwareRouter.intialEnergy = 5000
+#EnergyAwareRouter.scanEnergy = 0.1
+#EnergyAwareRouter.transmitEnergy = 5
+#EnergyAwareRouter.scanInterval = 10
+#EnergyAwareRouter.warmupTime = 1000
+
+# Common settings for all groups
+Group.movementModel = ShortestPathMapBasedMovement
+Group.router = EnergyAwareRouter
+Group.intialEnergy = 5000
+Group.scanEnergy = 0.1
+Group.transmitEnergy = 5
+Group.scanInterval = 10
+Group.warmupTime = 1000
+# All nodes have the bluetooth interface
+Group.nrofInterfaces = 1
+Group.interface1 = btInterface
+# Walking speeds
+Group.speed = 0.5, 1.5
+# Message TTL of 300 minutes (5 hours)
+Group.msgTtl = 300
+
+
+# how many reports to load
+Report.nrofReports = 2
+# length of the warm up period (simulated seconds)
+Report.warmup = 0
+# default directory of reports (can be overridden per Report with output setting)
+Report.reportDir = reports/
+# Report classes to load
+Report.report1 = MessageStatsReport
+#Report.report1 = EnergyLevelReport
+Report.report2= EnergyLog
+Report.granularity = 3
+
+
+#Report.report2 = ContactTimesReport
+#Report.report3 = BufferEnergyNeighborInfoReport
+#Report.report3 = BufferNeighborInfoReport
+#Report.report3 = BufferCalculatorReport

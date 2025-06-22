@@ -1,0 +1,120 @@
+Scenario.name = ContextAwareRLScenario
+Scenario.simulateConnections = true
+Scenario.updateInterval = 0.1
+#Scenario.endTime = 43200
+Scenario.endTime = 15000
+
+Scenario.nrofHostGroups = 6
+
+btInterface.type = SimpleBroadcastInterface
+btInterface.transmitSpeed = 250k
+btInterface.transmitRange = 50
+
+Group.router = contextAware.ContextAwareRLRouter
+Group.fcl = src/fuzzycontrollanguage/FuzzyContextAware.fcl
+Group.fclmsg = src/fuzzycontrollanguage/FuzzyMessageContext.fcl
+
+Group.bufferSize = 100M
+Group.msgTtl = 70
+Group.waitTime = 0, 60
+Group.nrofInterfaces = 1
+Group.interface1 = btInterface
+Group.speed = 0.5, 1.5
+Group.msgTtl = 300
+Group.movementModel = RandomWaypoint
+
+Group.initialEnergy = 100
+Group.scanEnergy = 0.001
+Group.transmitEnergy   = 0.1
+Group.scanResponseEnergy = 0.001
+Group.scanInterval = 0.01
+
+Group.alphaPopularity = 0.8
+
+# All nodes have the bluetooth interface
+Group.nrofInterfaces = 1
+Group.interface1 = btInterface
+
+MovementModel.worldSize = 4400, 3400
+MovementModel.warmup = 1000
+MapBasedMovement.nrofMapFiles = 4
+# MapBasedMovement.mapFile1 = data/roads.wkt
+# MapBasedMovement.mapFile2 = data/main_roads.wkt
+# MapBasedMovement.mapFile3 = data/pedestrian_paths.wkt
+# MapBasedMovement.mapFile4 = data/shops.wkt
+
+# Group1 - pedestrian 1 (MBM)
+Group1.groupID = p1
+Group1.bufferSize = 100M
+Group1.msgTtl = 70
+Group1.nrofHosts = 15
+# Group1.movementModel = MapBasedMovement
+# Group1.movementModel = RandomWalk
+
+# Group2 - pedestrian 2 (SPMB)
+Group2.groupID = p2
+Group2.nrofHosts = 15
+Group2.bufferSize = 100M
+Group2.msgTtl = 70
+Group2.movementModel =RandomWalk
+
+
+# Group3 - car 1
+Group3.groupID = c1
+Group3.bufferSize = 100M
+Group3.msgTtl = 70
+Group3.nrofHosts = 10
+Group3.movementModel = RandomWalk
+#Group3.speed = 2.7, 13.9
+
+
+
+# Group4 - car 2
+Group4.groupID = c2
+Group4.bufferSize = 100M
+Group4.msgTtl = 70
+Group4.nrofHosts = 10
+Group4.interface1 = btInterface
+Group4.movementModel = RandomWalk
+#Group4.speed = 2.7, 13.9
+
+
+
+# Group5 - bus 1
+Group5.groupID = b1
+Group5.bufferSize = 100M
+Group5.msgTtl = 70
+Group5.nrofHosts = 2
+Group5.movementModel = RandomWalk
+# Group5.routeFile = data/tram3.wkt
+Group5.routeType = 1
+Group5.waitTime = 10, 30
+#Group5.speed = 7, 10
+
+# Group6 - bus 2
+Group6.groupID = b2
+Group6.bufferSize = 100M
+Group6.msgTtl = 70
+Group6.nrofHosts = 2
+Group6.movementModel = RandomWalk
+# Group6.routeFile = data/tram4.wkt
+Group6.routeType = 2
+Group6.waitTime = 10, 30
+#Group6.speed = 7, 10
+
+
+# Event Generator
+Events.nrof = 1
+Events1.class = MessageEventGenerator
+Events1.interval = 25,35
+Events1.size = 500k,1M
+Events1.hosts = 0,54
+Events1.prefix = M
+
+# Report
+Report.nrofReports = 2
+Report.warmup = 0
+Report.reportDir = reports/
+Report.report1 = MessageStatsReport
+Report.report2 = ContactTimesReport
+

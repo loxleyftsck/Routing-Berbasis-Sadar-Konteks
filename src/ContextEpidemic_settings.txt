@@ -1,0 +1,27 @@
+Scenario.name = ContextEpidemicRouter
+
+Group.router = contextAware.ContextEpidemicRouter
+Group.bufferSize = 1M
+Group.secondsInTimeUnit = 50
+Group.beta=5
+Group.nrofCopies = 3
+Group.binaryMode = true
+
+Group.initialEnergy = 100000
+Group.scanEnergy = 0.1
+Group.transmitEnergy   = 5
+Group.scanResponseEnergy = 0.1
+Group.scanInterval = 10
+Group.warmupTime = 10
+
+Report.nrofReports = 2
+# length of the warm up period (simulated seconds)
+#Report.warmup = 0
+#Report.granularity = 1
+# default directory of reports (can be overridden per Report with output setting)
+Report.reportDir = reports/
+# Report classes to load
+Report.report1 = MessageStatsReport
+Report.report2 = ContactTimesReport
+
+

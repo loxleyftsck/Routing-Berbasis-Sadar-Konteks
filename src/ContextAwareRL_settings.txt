@@ -1,0 +1,34 @@
+Scenario.name = ContextAwareRLRouter
+
+btInterface.type = SimpleBroadcastInterface
+btInterface.transmitSpeed = 250k
+btInterface.transmitRange = 10
+
+Group.router = contextAware.ContextAwareRLRouter
+Group.fcl = src/fuzzycontrollanguage/FuzzyContextAware.fcl
+
+Group.MovementModel = RandomWaypoint
+
+Group.bufferSize = 1M
+Group.initialEnergy = 100
+Group.scanEnergy = 0.01
+Group.transmitEnergy   = 0.2
+Group.scanResponseEnergy = 0.01
+Group.scanInterval = 10
+Group.warmupTime = 10
+Group.interface1 = btInterface
+Group.alphaPopularity=0.6
+
+
+
+Report.nrofReports = 2
+# length of the warm up period (simulated seconds)
+#Report.warmup = 0
+#Report.granularity = 1
+# default directory of reports (can be overridden per Report with output setting)
+Report.reportDir = reports/
+# Report classes to load
+Report.report1 = MessageStatsReport
+Report.report2 = ContactTimesReport
+
+

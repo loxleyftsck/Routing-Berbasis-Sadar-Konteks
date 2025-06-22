@@ -1,0 +1,40 @@
+TERM small  := TRAPE 0 20 40 80 ;         // Pesan hampir kedaluwarsa
+TERM medium := TRAPE 60 90 120 150 ;      // Umur sedang
+TERM large  := TRAPE 130 150 180 180 ;    // Umur masih panjang
+
+TTL
+TERM small  := TRAPE 0 20 40 80 ;         // Pesan hampir kedaluwarsa
+TERM medium := TRAPE 60 90 120 150 ;      // Umur sedang
+TERM large  := TRAPE 130 150 180 180 ;    // Umur masih panjang
+
+
+TERM small  := TRAPE 0    30    60    100  ;   // Hampir kedaluwarsa
+TERM medium := TRAPE 80   120   180   220  ;   // Umur sedang
+TERM large  := TRAPE 200  240   280   300  ;   // Umur panjang
+
+TERM small  := TRAPE 0    30    70    120  ;
+TERM medium := TRAPE 100  150   230   280  ;
+TERM large  := TRAPE 260  300   340   360  ;
+
+TERM small  := TRAPE 0    40    80    140  ;
+TERM medium := TRAPE 120  180   260   320  ;
+TERM large  := TRAPE 300  350   400   420  ;
+
+
+Buffer
+TERM low    := TRAPE  0 0 2000 3000 ;
+TERM med    := TRAPE  2000 4000 7000 8000 ;
+TERM high   := TRAPE  7000 9000 10240 10240 ;
+
+TERM low  := TRAPE  0     0     4000  6000  ;
+TERM med  := TRAPE  5000  8000  14000 16000 ;
+TERM high := TRAPE  15000 18000 20480 20480 ;
+
+TERM low  := TRAPE  0     0     6000  9000  ;
+TERM med  := TRAPE  8000  12000 22000 25000 ;
+TERM high := TRAPE  24000 27000 30720 30720 ;
+
+
+TERM low  := TRAPE  0     0     8000  12000 ;
+TERM med  := TRAPE  10000 16000 30000 34000 ;
+TERM high := TRAPE  32000 37000 40960 40960 ;

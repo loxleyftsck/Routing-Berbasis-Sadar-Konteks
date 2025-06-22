@@ -1,0 +1,23 @@
+Scenario.name = EnergyAwareSprayAndWaitRouter
+Group.router = contextAware.SprayAndWaitEnergyAware
+Group.nrofCopies = 4
+Group.binaryMode = true
+
+Group.initialEnergy = 5000
+#Group.scanEnergy = 0.1
+#Group.transmitEnergy   = 5
+#Group.scanInterval = 10
+#Group.warmupTime = 1000
+
+Report.nrofReports = 2
+# length of the warm up period (simulated seconds)
+#Report.warmup = 0
+#Report.granularity = 1
+# default directory of reports (can be overridden per Report with output setting)
+Report.reportDir = reports/
+# Report classes to load
+Report.report1 = MessageStatsReport
+Report.report2 = ContactTimesReport
+#Report.report3 = EnergyBufferLog
+
+

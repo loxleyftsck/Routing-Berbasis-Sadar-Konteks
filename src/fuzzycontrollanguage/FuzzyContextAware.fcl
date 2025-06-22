@@ -1,0 +1,137 @@
+FUNCTION_BLOCK FuzzyContextAware
+
+VAR_INPUT
+        bufferNeighbor      : REAL;
+        energyNeighbor      : REAL;
+        popularityNeighbor  : REAL;
+        tieStrengthNeighbor : REAL;
+
+        ABILITY             : REAL;
+        SOCIAL              : REAL;
+END_VAR
+
+VAR_OUTPUT
+        ABILITY_NODE            : REAL;
+        SOCIAL_IMPORTANCE       : REAL;
+
+        TRANSFER_OPPORTUNITY    : REAL;
+END_VAR
+
+FUZZIFY bufferNeighbor
+         TERM low  := TRAPE  0     0     4000  6000  ;
+         TERM med  := TRAPE  5000  8000  14000 16000 ;
+         TERM high := TRAPE  15000 18000 20480 20480 ;
+END_FUZZIFY
+
+FUZZIFY energyNeighbor
+         TERM low    := TRAPE 0   0   100 200 ;
+         TERM med    := TRAPE 100 200 300 400 ;
+         TERM high   := TRAPE 300 400 500 500 ;
+END_FUZZIFY
+
+DEFUZZIFY ABILITY_NODE
+        TERM vbad       := TRAPE 0.0 0.0 0.2 0.3 ;
+        TERM bad        := TRAPE 0.2 0.3 0.4 0.5 ;
+        TERM good       := TRAPE 0.4 0.6 0.7 0.8 ;
+        TERM perfect    := TRAPE 0.7 0.8 0.9 1.0 ;
+        METHOD  : COG;
+        DEFAULT := 0;
+        RANGE := (0.0 .. 1.0);
+END_DEFUZZIFY
+
+RULEBLOCK ABILITY
+        AND     : MIN;
+        ACT     : MIN;
+        ACCU    : MAX;
+
+        RULE 1 : IF bufferNeighbor IS high AND energyNeighbor IS high THEN ABILITY_NODE IS perfect;
+        RULE 2 : IF bufferNeighbor IS high AND energyNeighbor IS med THEN ABILITY_NODE IS perfect;
+        RULE 3 : IF bufferNeighbor IS high AND energyNeighbor IS low THEN ABILITY_NODE IS bad;
+        RULE 4 : IF bufferNeighbor IS med AND energyNeighbor IS high THEN ABILITY_NODE IS perfect;
+        RULE 5 : IF bufferNeighbor IS med AND energyNeighbor IS med THEN ABILITY_NODE IS good;
+        RULE 6 : IF bufferNeighbor IS med AND energyNeighbor IS low THEN ABILITY_NODE IS bad;
+        RULE 7 : IF bufferNeighbor IS low AND energyNeighbor IS high THEN ABILITY_NODE IS good;
+        RULE 8 : IF bufferNeighbor IS low AND energyNeighbor IS med THEN ABILITY_NODE IS bad;
+        RULE 9 : IF bufferNeighbor IS low AND energyNeighbor IS low THEN ABILITY_NODE IS vbad;
+END_RULEBLOCK
+
+FUZZIFY popularityNeighbor
+        TERM slow   := TRAPE  0 0 0 0.5 ;
+        TERM med    := TRAPE  0 0.5 1.0 1.0 ;
+        TERM fast   := TRAPE  0.5 1.0 1.0 1.0 ;
+END_FUZZIFY
+
+FUZZIFY tieStrengthNeighbor
+        TERM poor   := TRAPE  0 0 0 0.5 ;
+        TERM fair   := TRAPE  0 0.5 1.0 1.0 ;
+        TERM good   := TRAPE  0.5 1.0 1.0 1.0 ;
+END_FUZZIFY
+
+DEFUZZIFY SOCIAL_IMPORTANCE
+        TERM bad        := TRAPE 0.0 0.0 0.0 0.5 ;
+        TERM good       := TRAPE 0.0 0.5 1.0 1.0 ;
+        TERM perfect    := TRAPE 0.5 1.0 1.0 1.0 ;
+        METHOD  : COG;
+        DEFAULT := 0;
+        RANGE := (0.0 .. 1.0);
+END_DEFUZZIFY
+
+RULEBLOCK SOCIAL
+        AND     : MIN;
+        ACT     : MIN;
+        ACCU    : MAX;
+
+        RULE 1 : IF popularityNeighbor IS fast AND tieStrengthNeighbor IS good THEN SOCIAL_IMPORTANCE IS perfect;
+        RULE 2 : IF popularityNeighbor IS fast AND tieStrengthNeighbor IS fair THEN SOCIAL_IMPORTANCE IS good;
+        RULE 3 : IF popularityNeighbor IS fast AND tieStrengthNeighbor IS poor THEN SOCIAL_IMPORTANCE IS good;
+        RULE 4 : IF popularityNeighbor IS med AND tieStrengthNeighbor IS good THEN SOCIAL_IMPORTANCE IS good;
+        RULE 5 : IF popularityNeighbor IS med AND tieStrengthNeighbor IS fair THEN SOCIAL_IMPORTANCE IS good;
+        RULE 6 : IF popularityNeighbor IS med AND tieStrengthNeighbor IS poor THEN SOCIAL_IMPORTANCE IS bad;
+        RULE 7 : IF popularityNeighbor IS slow AND tieStrengthNeighbor IS good THEN SOCIAL_IMPORTANCE IS good;
+        RULE 8 : IF popularityNeighbor IS slow AND tieStrengthNeighbor IS fair THEN SOCIAL_IMPORTANCE IS bad;
+        RULE 9 : IF popularityNeighbor IS slow AND tieStrengthNeighbor IS poor THEN SOCIAL_IMPORTANCE IS bad;
+END_RULEBLOCK
+
+
+FUZZIFY ABILITY    // ABILITY_NODE input
+    TERM vbad       := TRAPE 0.0 0.0 0.2 0.3 ;
+    TERM bad        := TRAPE 0.2 0.3 0.4 0.5 ;
+    TERM good       := TRAPE 0.4 0.6 0.7 0.8 ;
+    TERM perfect    := TRAPE 0.7 0.8 0.9 0.9 ;
+END_FUZZIFY
+
+FUZZIFY SOCIAL   // socialImportance input
+    TERM bad        := TRAPE 0.0 0.0 0.2 0.3;
+    TERM good       := TRAPE 0.2 0.3 0.5 0.6;
+    TERM perfect    := TRAPE 0.5 0.6 1.0 1.0;
+END_FUZZIFY
+
+DEFUZZIFY TRANSFER_OPPORTUNITY
+     TERM low       := TRAPE 0.0 0.0 0.0 0.39 ;
+     TERM med       := TRAPE 0.12 0.36 0.61 0.61 ;
+     TERM high      := TRAPE 0.39 0.64 0.83 0.83 ;
+     TERM vhigh     := TRAPE 0.61 1.0 1.0 1.0 ;
+     METHOD : COG;
+     DEFAULT := 0;
+     RANGE := (0.0 .. 1.0);
+END_DEFUZZIFY
+
+RULEBLOCK TRANSFER
+        AND     : MIN;
+        ACT     : MIN;
+        ACCU    : MAX;
+
+        RULE 1 : IF ABILITY IS perfect AND SOCIAL IS perfect THEN TRANSFER_OPPORTUNITY IS vhigh;
+        RULE 2 : IF ABILITY IS perfect AND SOCIAL IS good THEN TRANSFER_OPPORTUNITY IS vhigh;
+        RULE 3 : IF ABILITY IS perfect AND SOCIAL IS bad THEN TRANSFER_OPPORTUNITY IS med;
+        RULE 4 : IF ABILITY IS good AND SOCIAL IS perfect THEN TRANSFER_OPPORTUNITY IS high;
+        RULE 5 : IF ABILITY IS good AND SOCIAL IS good THEN TRANSFER_OPPORTUNITY IS high;
+        RULE 6 : IF ABILITY IS good AND SOCIAL IS bad THEN TRANSFER_OPPORTUNITY IS low;
+        RULE 7 : IF ABILITY IS bad AND SOCIAL IS perfect THEN TRANSFER_OPPORTUNITY IS med;
+        RULE 8 : IF ABILITY IS bad AND SOCIAL IS good THEN TRANSFER_OPPORTUNITY IS low;
+        RULE 9 : IF ABILITY IS bad AND SOCIAL IS bad THEN TRANSFER_OPPORTUNITY IS low;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
+

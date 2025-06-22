@@ -1,0 +1,166 @@
+####################################
+# SCENARIO: Simulation Time Evaluation
+####################################
+Scenario.name = ContextAwareRLTTL/TTL240
+Scenario.simulateConnections = true
+#Scenario.updateInterval = 0.1
+Scenario.updateInterval = 0.2
+Scenario.endTime = 45000
+#Scenario.endTime = 5000
+
+####################################
+# INTERFACE CONFIGURATION
+####################################
+btInterface.type = SimpleBroadcastInterface
+btInterface.transmitSpeed = 300k
+btInterface.transmitRange = 20
+
+####################################
+# COMMON GROUP SETTINGS
+####################################
+Scenario.nrofHostGroups = 6
+
+Group.router = contextAware.ContextAwareRLRouter
+Group.fcl = src/fuzzycontrollanguage/FuzzyContextAware.fcl
+Group.fclmsg = src/fuzzycontrollanguage/FuzzyMessageContext.fcl
+
+Group.bufferSize = 20M
+Group.msgTtl = 240
+Group.waitTime = 0, 60
+Group.nrofInterfaces = 1
+Group.interface1 = btInterface
+Group.speed = 0.5, 1.5
+Group.initialEnergy = 500
+Group.scanEnergy = 0.0
+Group.transmitEnergy   = 0.2
+Group.scanResponseEnergy = 0.0
+Group.scanInterval = 0.0
+Group.alphaPopularity = 0.6
+
+####################################
+# GROUP 1: PEDESTRIAN (MBM/SPMB)
+####################################
+Group1.groupID = p1
+Group1.nrofHosts = 30
+Group1.bufferSize = 20M
+Group1.msgTtl = 240
+Group1.nrofInterfaces = 1
+Group1.interface1 = btInterface
+
+# Default: gunakan MapBasedMovement (MBM)
+Group1.movementModel = MapBasedMovement
+
+# Untuk menguji Shortest Path Map Based Movement (SPMBM)
+#Group1.movementModel = ShortestPathMapBasedMovement
+#Group1.pois = 0,1, 1,1, 2,1
+#Group1.okMaps = 3
+
+####################################
+# GROUP 2: PEDESTRIAN (RWP)
+####################################
+Group2.groupID = p2
+Group2.nrofHosts = 20
+Group2.bufferSize = 20M
+Group2.msgTtl = 240
+Group2.nrofInterfaces = 1
+Group2.interface1 = btInterface
+Group2.movementModel = RandomWaypoint
+
+####################################
+# GROUP 3: CAR GROUP 1
+####################################
+Group3.groupID = c1
+Group3.nrofHosts = 20
+Group3.bufferSize = 20M
+Group3.msgTtl = 240
+Group3.nrofInterfaces = 1
+Group3.interface1 = btInterface
+Group3.movementModel = MapRouteMovement
+Group3.routeFile = data/tram3.wkt
+Group3.routeType = 1
+Group3.speed = 8.3, 13.9
+
+####################################
+# GROUP 4: CAR GROUP 2
+####################################
+Group4.groupID = c2
+Group4.nrofHosts = 15
+Group4.bufferSize = 20M
+Group4.msgTtl = 240
+Group4.nrofInterfaces = 1
+Group4.interface1 = btInterface
+Group4.movementModel = MapRouteMovement
+Group4.routeFile = data/tram10.wkt
+Group4.routeType = 2
+Group4.speed = 8.3, 13.9
+
+####################################
+# GROUP 5: BUS GROUP 1
+####################################
+Group5.groupID = b1
+Group5.nrofHosts = 10
+Group5.bufferSize = 20M
+Group5.msgTtl = 240
+Group5.nrofInterfaces = 1
+Group5.interface1 = btInterface
+Group5.movementModel = MapRouteMovement
+Group5.routeFile = data/demo_bus.wkt
+Group5.routeType = 1
+Group5.speed = 5.5, 10
+
+####################################
+# GROUP 6: BUS GROUP 2
+####################################
+Group6.groupID = b2
+Group6.nrofHosts = 5
+Group6.bufferSize = 20M
+Group6.msgTtl = 240
+Group6.nrofInterfaces = 1
+Group6.interface1 = btInterface
+Group6.movementModel = MapRouteMovement
+Group6.routeFile = data/tram4.wkt
+Group6.routeType = 2
+Group6.speed = 5.5, 10
+
+####################################
+# MAP CONFIGURATION
+####################################
+MovementModel.worldSize = 4400, 3400
+MovementModel.warmup = 1000
+MovementModel.rngSeed = 1
+
+MapBasedMovement.nrofMapFiles = 4
+MapBasedMovement.mapFile1 = data/roads.wkt
+MapBasedMovement.mapFile2 = data/main_roads.wkt
+MapBasedMovement.mapFile3 = data/pedestrian_paths.wkt
+MapBasedMovement.mapFile4 = data/shops.wkt
+
+####################################
+# EVENT GENERATOR
+####################################
+Events.nrof = 1
+Events1.class = MessageEventGenerator
+Events1.interval = 35,45
+Events1.size = 500k,1M
+Events1.hosts = 0,99
+Events1.prefix = M
+
+####################################
+# REPORTS
+####################################
+Report.nrofReports = 3
+Report.warmup = 0
+Report.reportDir = reports/
+Report.report1 = TimedStatsMessageReport
+Report.report2 = DeliveredMessagesReport
+Report.report3 = MessageStatsReport
+Report.reportDir = reports/NEWCRIPS/
+
+
+
+#Report.report1 = MessageStatsReport
+#Report.report2 = TimedStatsMessageReport
+#Report.report3 = DeliveredMessagesReport
+#Report.report4 = BufferOccupancyReport
+#Report.report5 = MessageDeleteReport
+#Report.TimedStatsMessageReport.output = reports/timed_stats.txt
