@@ -70,3 +70,42 @@ src/
 - **Buffer Management**:
   - Prioritaskan pesan urgensi tinggi terlebih dahulu
   - Hindari overload buffer dengan pesan usang
+
+
+## 🧪 Evaluasi & Simulasi
+
+Simulasi dilakukan dengan **The ONE Simulator** dan dibandingkan dengan protokol benchmark:
+
+### 🔬 3 Skenario Simulasi Utama:
+
+1. **Simulasi Berdasarkan Waktu**  
+   - Durasi: 5000s – 43000s  
+   - Metrik: Message delivery ratio & overhead seiring waktu berjalan  
+
+2. **Simulasi Berdasarkan Ukuran Buffer**  
+   - Ukuran buffer: 5MB – 50MB  
+   - Metrik: Efek terhadap delivery ratio & pemakaian buffer  
+
+3. **Simulasi Berdasarkan TTL Pesan**  
+   - Rentang TTL: 300 – 1000 menit  
+   - Metrik: Prioritas pesan, jumlah pesan kedaluwarsa vs terkirim
+
+### 🧭 Model Pergerakan:
+
+- MBM (Map-Based Movement)
+- RWP (Random Waypoint)
+- SPMBM (Shortest Path Map-Based)
+- RWK (Random Walk)
+
+
+### ⚖️ Dibandingkan Dengan:
+
+- **Epidemic** (Flooding)
+- **PRoPHET** (Probabilistic)
+- **Spray and Wait**
+
+
+
+
+
+
