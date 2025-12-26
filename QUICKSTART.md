@@ -297,7 +297,7 @@ java -Xmx2048m -cp ...   # Allocates 2GB memory
 ✅ **Experiment with different scenarios** (buffer, TTL, movement models)  
 ✅ **Read [ARCHITECTURE.md](ARCHITECTURE.md)** for deep technical understanding  
 ✅ **Modify Q-learning parameters** (`alpha`, `gamma`) in `QTableUpdateStrategy.java`  
-✅ **Customize CRIPS fuzzy rules** in `/src/fcl/*.fcl` files  
+✅ **Customize CRIPS evaluation rules** in `/src/fcl/*.fcl` files  
 
 ---
 

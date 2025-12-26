@@ -30,7 +30,7 @@ This document provides a deep-dive into the technical architecture, algorithms, 
 │       ContextAwareRLRouter (Routing)          │
 │  ┌─────────────┐  ┌──────────────────────┐   │
 │  │ Q-Learning  │  │  CRIPS Evaluation    │   │
-│  │   Agent     │←→│  (Fuzzy Logic)       │   │
+│  │   Agent     │←→│  (CRIPS Evaluation)      │   │
 │  └─────────────┘  └──────────────────────┘   │
 │  ┌─────────────┐  ┌──────────────────────┐   │
 │  │   ENS       │  │  Buffer Manager      │   │
@@ -119,10 +119,10 @@ density = encounterCount / simulationTimeElapsed
 
 - `CripsContextAware.java` - Physical + Social context
 - `CripsContextMsg.java` - Message context
-- `fcl/ContextAware.fcl` - Fuzzy logic rules
+- `fcl/ContextAware.fcl` - CRIPS evaluation rules
 
 **Purpose:**
-Evaluate node suitability as a relay using fuzzy logic.
+Evaluate node suitability as a relay using CRIPS.
 
 ---
 
@@ -161,7 +161,7 @@ Q("node10", "node7") = 0.32   → Low Q-value, avoid node7 for dest node10
 **Purpose:**
 Manage limited buffer space by prioritizing important messages.
 
-**Priority Levels (Fuzzy Output):**
+**Priority Levels (CRIPS Output):**
 
 - **Urgent** (score > 0.7): Critical messages, never drop
 - **Normal** (0.3 - 0.7): Standard priority
@@ -192,9 +192,9 @@ if (density > HIGH_THRESHOLD) {
 
 ## Context Evaluation (CRIPS)
 
-### Fuzzy Logic Framework
+### CRIPS Evaluation Framework
 
-CARL-DTN uses **jFuzzyLogic** with FCL (Fuzzy Control Language) files.
+CARL-DTN uses **FCL (Fuzzy Control Language)** files for CRIPS evaluation.
 
 ### Physical + Social Context (FLC1)
 
@@ -214,7 +214,7 @@ CARL-DTN uses **jFuzzyLogic** with FCL (Fuzzy Control Language) files.
 - **Transfer Opportunity** (0-1)
   - Linguistic values: `Bad`, `Moderate`, `Good`, `Perfect`
 
-**Example Fuzzy Rules:**
+**Example CRIPS Rules:**
 
 ```fcl
 RULE 1: IF battery IS High AND buffer IS NOT Full AND popularity IS Popular
@@ -241,7 +241,7 @@ RULE 3: IF tieStrength IS Strong AND battery IS Medium
 - **Message Priority** (0-1)
   - Linguistic values: `Low`, `Normal`, `Urgent`
 
-**Example Fuzzy Rules:**
+**Example CRIPS Rules:**
 
 ```fcl
 RULE 1: IF ttlRemaining IS Low AND hopCount IS Few
@@ -352,7 +352,7 @@ Determine Copy Count (CopyController)
     ↓
 Insert into Buffer (BufferManager)
     ↓
-Assign Fuzzy Priority (CRIPSContextMsg)
+Assign CRIPS Priority (CRIPSContextMsg)
 ```
 
 ### 2. Message Forwarding Decision
@@ -390,7 +390,7 @@ If full → Drop Lowest Priority Message (makeRoomForMessage)
     ↓
 Insert Message into Buffer
     ↓
-Assign Fuzzy Priority
+Assign CRIPS Priority
 ```
 
 ### 4. Message Dropping
@@ -398,7 +398,7 @@ Assign Fuzzy Priority
 ```
 Buffer Full + Cannot Drop Any Message
     ↓
-Sort messages by fuzzy priority (ascending)
+Sort messages by CRIPS priority (ascending)
     ↓
 Drop lowest priority message (not being sent)
     ↓
@@ -471,7 +471,7 @@ def makeRoomForMessage(requiredSize):
         return True
     
     # Get all messages sorted by priority (ascending)
-    messages = sortByFuzzyPriority(getAllMessages())
+    messages = sortByCripsPriority(getAllMessages())
     
     for msg in messages:
         if msg.isBeingTransferred():
@@ -523,7 +523,7 @@ class EncounteredNodeSet {
 
 ```java
 class MessageListTable {
-    Map<String, Double> messagePriorities;  // messageId → fuzzy priority
+    Map<String, Double> messagePriorities;  // messageId → CRIPS priority
     
     void addMessage(String messageId, double priority);
     double getPriority(String messageId);
@@ -551,9 +551,9 @@ CopyControl.maxCopies = 15
 CopyControl.lowDensityThreshold = 0.01
 CopyControl.highDensityThreshold = 0.1
 
-# Fuzzy logic files
-Fuzzy.contextAwareFile = fcl/ContextAware.fcl
-Fuzzy.contextMsgFile = fcl/ContextMsg.fcl
+# CRIPS evaluation files
+CRIPS.contextAwareFile = fcl/ContextAware.fcl
+CRIPS.contextMsgFile= fcl/ContextMsg.fcl
 ```
 
 ### Node Group Settings
@@ -584,7 +584,7 @@ Scenario.nrofHostGroups = 1
 |-----------|-----------|
 | Q-Value Lookup | O(1) (HashMap) |
 | Next-Hop Selection | O(n) where n = neighbor count |
-| Fuzzy Evaluation | O(1) (rule-based) |
+| CRIPS Evaluation | O(1) (rule-based) |
 | Buffer Management | O(m log m) where m = messages in buffer |
 
 ### Space Complexity
@@ -595,7 +595,7 @@ Scenario.nrofHostGroups = 1
 
 ### Optimization Strategies
 
-1. **Lazy Fuzzy Evaluation**: Only evaluate when decision needed
+1. **Lazy CRIPS Evaluation**: Only evaluate when decision needed
 2. **Q-Table Pruning**: Remove stale entries for unreachable destinations
 3. **Incremental Priority Update**: Update only changed messages
 4. **Connection Caching**: Cache Transfer Opportunity scores
@@ -606,7 +606,7 @@ Scenario.nrofHostGroups = 1
 
 ### Adding New Context Dimensions
 
-1. Create new fuzzy input variables in `.fcl` files
+1. Create new CRIPS input variables in `.fcl` files
 2. Implement context extraction in router
 3. Add rules combining new context with existing ones
 
@@ -623,7 +623,7 @@ public class CustomQTableUpdate extends QTableUpdateStrategy {
 }
 ```
 
-### Alternative Fuzzy Logic
+### Alternative CRIPS Evaluation
 
 Replace FCL files in `/fcl` directory with custom rules.
 
@@ -632,7 +632,7 @@ Replace FCL files in `/fcl` directory with custom rules.
 ## References
 
 - **Q-Learning**: Watkins, C. J., & Dayan, P. (1992). Q-learning. Machine learning, 8(3-4), 279-292.
-- **Fuzzy Logic**: Zadeh, L. A. (1965). Fuzzy sets. Information and control, 8(3), 338-353.
+- **CRIPS Framework**: Zadeh, L. A. (1965). Fuzzy sets. Information and control, 8(3), 338-353.
 - **DTN Architecture**: RFC 4838 - Delay-Tolerant Networking Architecture
 
 ---

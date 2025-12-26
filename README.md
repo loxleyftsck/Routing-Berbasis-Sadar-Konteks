@@ -32,7 +32,7 @@
 - 📊 **Evaluates node context** using physical (battery, buffer), social (popularity, tie-strength), and message properties (TTL, hop-count)
 - 🧠 **Learns optimal routing decisions** through Q-Learning reinforcement learning
 - 🔄 **Adapts to network dynamics** by adjusting message copy counts based on local density
-- ⚡ **Prioritizes critical messages** using fuzzy logic evaluation
+- ⚡ **Prioritizes critical messages** using CRIPS evaluation
 
 Built on top of **The ONE Simulator** (Opportunistic Network Environment), CARL-DTN provides a complete framework for simulating and evaluating context-aware routing strategies in challenged network scenarios.
 
@@ -74,7 +74,7 @@ Existing DTN routing protocols have limitations:
 - ✅ Incorporating multi-dimensional context awareness (physical + social + message)
 - ✅ Learning optimal forwarding decisions through reinforcement learning
 - ✅ Dynamically adapting behavior based on network density
-- ✅ Prioritizing messages based on fuzzy linguistic evaluation
+- ✅ Prioritizing messages based on CRIPS linguistic evaluation
 
 ---
 
@@ -98,7 +98,7 @@ Existing DTN routing protocols have limitations:
 
 #### 2. **CripsController** - Context Evaluation
 
-Evaluates three dimensions of context using **fuzzy logic (CRIPS)**:
+Evaluates three dimensions of context using **CRIPS** (Context-aware Routing using Intelligent Prediction System):
 
 **Physical Context:**
 
@@ -149,7 +149,7 @@ Selects best relay node by:
 
 #### 6. **BufferManager** - Priority Queue Management
 
-- Assigns fuzzy priority to each message based on message context evaluation
+- Assigns CRIPS priority score to each message based on message context evaluation
 - Drops lowest-priority messages when buffer is full
 - Ensures critical messages (high urgency, low TTL) are retained
 
@@ -208,9 +208,9 @@ int copies = calculateCopiesBasedOnDensity(networkDensity);
 - **Dense network** → Fewer copies (avoid congestion)
 - **Sparse network** → More copies (increase probability)
 
-### 📋 Fuzzy Priority-Based Buffer Management
+### 📋 CRIPS Priority-Based Buffer Management
 
-Messages are prioritized using fuzzy evaluation:
+Messages are prioritized using CRIPS evaluation:
 
 - **Inputs**: TTL remaining, hop count, message size
 - **Output**: Priority score (Urgent, Normal, Low)
@@ -224,7 +224,7 @@ Messages are prioritized using fuzzy evaluation:
 
 - **Language**: Java 6+
 - **Simulator**: The ONE v1.4.1 (Opportunistic Network Environment)
-- **Fuzzy Logic**: jFuzzyLogic (FCL - Fuzzy Control Language)
+- **CRIPS Framework**: FCL-based CRIPS evaluation engine
 - **Build Tool**: Batch script (`compile.bat`)
 
 ### Directory Structure
@@ -263,13 +263,13 @@ src/
 | Class | Responsibility |
 |-------|---------------|
 | `ContextAwareRLRouter` | Main router implementing message handling, Q-learning updates, buffer management |
-| `CripsContextAware` | Evaluates physical and social context using fuzzy logic |
+| `CripsContextAware` | Evaluates physical and social context using CRIPS |
 | `CripsContextMsg` | Evaluates message context (TTL, hop-count) |
 | `Qtable` | Stores and retrieves Q-values for (destination, next-hop) pairs |
 | `QTableUpdateStrategy` | Implements Q-learning update equation |
 | `EncounteredNodeSet` | Maintains ENS for a node, calculates density |
 | `NetworkDensityCalculator` | Computes message copies based on ENS density |
-| `MessageListTable` | Tracks fuzzy priority for all buffered messages |
+| `MessageListTable` | Tracks CRIPS priority scores for all buffered messages |
 
 ---
 
@@ -388,7 +388,7 @@ one.bat ContextAwareGroupRL_settings.txt
 Key configuration files in `/src`:
 
 - `ContextAwareGroupRL_settings.txt` - Main CARL-DTN configuration
-- `ContextAwareGroupRL_KeanggotaanFuzzy.txt` - Fuzzy membership settings
+- `ContextAwareGroupRL_KeanggotaanFuzzy.txt` - CRIPS membership settings
 - `ContextAwareGroupRL_5MBsettings.txt` - 5MB buffer scenario
 - `ContextAwareGroupRLTTL300_settings.txt` - TTL=300 scenario
 - `CARL_Test_Epidemic_settings.txt` - Epidemic baseline
@@ -443,18 +443,18 @@ This project is built upon research in:
 - **Delay Tolerant Networking (DTN)**: RFC 4838, Bundle Protocol
 - **Opportunistic Networking**: Store-Carry-Forward paradigm
 - **Reinforcement Learning**: Q-Learning, Temporal Difference Learning
-- **Fuzzy Logic**: CRIPS (Context-aware Routing using Intelligent Prediction System)
+- **CRIPS Evaluation**: CRIPS (Context-aware Routing using Intelligent Prediction System)
 - **Social Network Analysis**: Tie strength, centrality metrics
 
 ### Key Research Contributions
 
-1. **Multi-Dimensional Context Integration**: First protocol to combine physical, social, and message context in a unified fuzzy framework for DTN routing
+1. **Multi-Dimensional Context Integration**: First protocol to combine physical, social, and message context in a unified CRIPS framework for DTN routing
 
-2. **Adaptive Q-Learning**: Novel Q-learning approach where reward is derived from fuzzy context evaluation rather than binary delivery success
+2. **Adaptive Q-Learning**: Novel Q-learning approach where reward is derived from CRIPS context evaluation rather than binary delivery success
 
 3. **Density-Aware Copy Control**: Dynamic spray count calculation based on real-time ENS density estimation
 
-4. **Fuzzy Priority Buffer Management**: Linguistic priority assignment for intelligent buffer management under resource constraints
+4. **CRIPS Priority Buffer Management**: Linguistic priority assignment for intelligent buffer management under resource constraints
 
 ### Related Work
 
@@ -476,7 +476,7 @@ This project is built upon research in:
 - [ ] **Distributed Learning**: Implement federated Q-learning across node clusters
 - [ ] **Real-World Deployment**: Port to Android/embedded devices for field testing
 - [ ] **Security Mechanisms**: Implement trust-based forwarding and anomaly detection
-- [ ] **Performance Optimization**: Parallel Q-table updates, incremental fuzzy evaluation
+- [ ] **Performance Optimization**: Parallel Q-table updates, incremental CRIPS evaluation
 
 ### Research Directions
 
@@ -498,7 +498,7 @@ The ONE Simulator is also GPL v3 licensed. Original ONE Simulator: <https://aker
 ## 🙏 Acknowledgments
 
 - **The ONE Simulator Team** - For providing an excellent DTN simulation platform
-- **jFuzzyLogic** - For the FCL-based fuzzy logic framework
+- **FCL Framework** - For the CRIPS evaluation engine
 - Research community in DTN, Opportunistic Networking, and Reinforcement Learning
 
 ---
