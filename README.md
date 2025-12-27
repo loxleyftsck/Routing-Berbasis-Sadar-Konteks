@@ -82,11 +82,13 @@ Existing DTN routing protocols have limitations:
 
 ### System Architecture
 
-![CARL-DTN Architecture](C:/Users/LENOVO/.gemini/antigravity/brain/a67724d9-cf6b-4ca8-9692-66148a839159/carl_dtn_architecture_1766773894062.png)
+<img width="1024" height="617" alt="image" src="https://github.com/user-attachments/assets/f26a1c3a-c795-4c23-b4f5-93306a51406c" />
+
 
 ### CRIPS Context Evaluation Flow
 
-![CRIPS Evaluation Process](C:/Users/LENOVO/.gemini/antigravity/brain/a67724d9-cf6b-4ca8-9692-66148a839159/crips_evaluation_flow_1766773914213.png)
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/05b9e553-b38e-4242-93b0-e01e526336a7" />
+
 
 ### Key Components
 
@@ -127,11 +129,12 @@ Output: **Transfer Opportunity Score** → Linguistic value (Perfect, Good, Mode
 **Update Strategy:**
 
 ```
-Q(dest, neighbor) = Q(dest, neighbor) + α × [reward - Q(dest, neighbor)]
+<img width="718" height="47" alt="image" src="https://github.com/user-attachments/assets/4d2f2465-9091-4697-9ffa-2887d03320e6" />
+
 ```
 
-- `α` (alpha): Learning rate
-- `reward`: Transfer Opportunity score from CRIPS evaluation
+<img width="843" height="627" alt="image" src="https://github.com/user-attachments/assets/dc9cc23c-ec9f-4e5a-89ea-7198a9841cc4" />
+
 
 #### 4. **RoutingEngine** - Next-Hop Selection
 
