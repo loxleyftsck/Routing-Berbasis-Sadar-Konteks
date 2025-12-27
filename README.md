@@ -128,12 +128,18 @@ Output: **Transfer Opportunity Score** → Linguistic value (Perfect, Good, Mode
 
 **Update Strategy:**
 
-```
-<img width="718" height="47" alt="image" src="https://github.com/user-attachments/assets/4d2f2465-9091-4697-9ffa-2887d03320e6" />
+$$Q_c(d, m) \leftarrow \alpha \times \{ R_{d,m} + \gamma \times Topp \times \max_{y \in N_m} Q_m(d, m) \} + (1 - \alpha) \times Q_c(d, m)$$
 
-```
+### Variable Definitions
 
-<img width="843" height="627" alt="image" src="https://github.com/user-attachments/assets/dc9cc23c-ec9f-4e5a-89ea-7198a9841cc4" />
+| Symbol | Description |
+| :--- | :--- |
+| **$Q_c(d, m)$** | The Q-value at current node **$c$** for destination **$d$** via neighbor **$m$**. |
+| **$R_{d,m}$** | **Immediate Reward** received after forwarding a packet to node $m$. |
+| **$Topp$** | **Transfer Opportunity**, a metric derived from node $m$'s physical (Buffer, Battery) and social (Popularity, Tie Strength) contexts. |
+| **$N_m$** | The set of available neighbor nodes for node $m$. |
+| **$\alpha$** | **Learning Rate**. Determines how quickly the model adapts to new data. |
+| **$\gamma$** | **Discount Factor**. Balances current rewards versus long-term future rewards. |
 
 
 #### 4. **RoutingEngine** - Next-Hop Selection
