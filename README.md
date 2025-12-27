@@ -1,4 +1,4 @@
-# 🛰️ CARL-DTN: Context-Aware Reinforcement Learning for Delay Tolerant Networks
+# 🛰️ CARL-DTN: Context-Aware Reinforcement Learning Delay Tolerant Networks
 
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=java&logoColor=white)](https://www.java.com/)
 [![ONE Simulator](https://img.shields.io/badge/ONE%20Simulator-v1.4.1-blue)](https://akeranen.github.io/the-one/)
